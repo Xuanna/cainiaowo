@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:id="@+id/drawlayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            app:title="你好"
+            android:theme="@style/AppTheme.Toolbar"
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextColor="#FFF"
+            android:layout_height="wrap_content"
+            />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            app:tabMode="fixed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <android.support.design.widget.NavigationView
+        app:menu="@menu/menu_left"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/layout_navigation_view"
+        android:id="@+id/design_navigation_view"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"/>
+</android.support.v4.widget.DrawerLayout>

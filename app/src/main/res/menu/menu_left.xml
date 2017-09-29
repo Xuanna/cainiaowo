@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:icon="@drawable/account"
+        android:title="个人中心"
+        android:id="@+id/mine"/>
+    <item android:icon="@drawable/delete"
+        android:title="删除"
+        android:id="@+id/delete"/>
+    <item android:icon="@drawable/form"
+        android:title="表格"
+        android:id="@+id/form"/>
+</menu>
