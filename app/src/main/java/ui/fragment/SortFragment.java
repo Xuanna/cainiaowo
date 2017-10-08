@@ -9,15 +9,19 @@ import android.view.ViewGroup;
 
 import com.custom.cainiaowo.R;
 
+import ui.BaseFragment;
+
 /**
  * Created by xuchichi on 2017/9/29.
  */
-public class SortFragment extends Fragment {
-    View view;
-    @Nullable
+public class SortFragment extends BaseFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_sort,null);
-        return view;
+    public int setLayout() {
+        return R.layout.fragment_sort;
+    }
+
+    @Override
+    public void initView() {
+
     }
 }

@@ -6,18 +6,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.custom.cainiaowo.R;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import ui.BaseFragment;
 
 /**
  * Created by xuchichi on 2017/9/29.
  */
-public class RankFragment extends Fragment {
-    View view;
-    @Nullable
+public class RankFragment extends BaseFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_rank,null);
-        return view;
+    public int setLayout() {
+        return R.layout.fragment_rank;
+    }
+
+    @Override
+    public void initView() {
+
     }
 }

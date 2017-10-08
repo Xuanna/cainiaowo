@@ -9,15 +9,19 @@ import android.view.ViewGroup;
 
 import com.custom.cainiaowo.R;
 
+import ui.BaseFragment;
+
 /**
  * Created by xuchichi on 2017/9/29.
  */
-public class GameFragment extends Fragment {
-    View view;
-    @Nullable
+public class GameFragment extends BaseFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_game,null);
-        return view;
+    public int setLayout() {
+        return R.layout.fragment_game;
+    }
+
+    @Override
+    public void initView() {
+
     }
 }
