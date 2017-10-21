@@ -13,20 +13,29 @@ import com.custom.cainiaowo.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.schedulers.IoScheduler;
+import io.reactivex.internal.schedulers.NewThreadScheduler;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import ui.BaseFragment;
-import ui.entiity.LoginInfo;
 import ui.entiity.User;
-import utils.UrlManager;
+import ui.entiity.UserInfo;
 
 /**
  * Created by xuchichi on 2017/9/29.
@@ -34,38 +43,66 @@ import utils.UrlManager;
 public class CommendFragment extends BaseFragment {
     @InjectView(R.id.btn)
     Button btn;
-
+    Retrofit retrofit;
     @Override
     public int setLayout() {
         return R.layout.fragment_comment;
     }
-
     @Override
     public void initView() {
+         retrofit = new Retrofit.Builder()
+                .baseUrl("http://wallet.pigamegroup.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    //
+        Observable.create(new ObservableOnSubscribe<UserInfo>() {//在主线程
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<UserInfo> e) throws Exception {
+            //请求网络
+                UserInfo userinfo = retrofit.create(ApiSevice.class)
+                        .login("piaa21","123123a").execute().body();
+                e.onNext(userinfo);
+            }
+        }).subscribeOn(Schedulers.io())//开启线程池在子线程中调用
+                .observeOn(AndroidSchedulers.mainThread())//new NewThreadScheduler()
+                .subscribe(new Observer<UserInfo>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
 
+            }
+
+            @Override
+            public void onNext(@NonNull UserInfo user) {
+                Log.e("onNext","user:"+user);
+                btn.setText(user.toString());
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     public void initRetroifit() {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(UrlManager.BASIC_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiSevice apiSevice=retrofit.create(ApiSevice.class);
-      Call<RequestBody> call=  apiSevice.login(new User("18679131590","1131120704a"));
-        call.enqueue(new Callback<RequestBody>() {
-            @Override
-            public void onResponse(Call<RequestBody> call, Response<RequestBody> response) {
-                Log.e("uesr",response.body().toString()+"");
-                Toast.makeText(getContext(),"Success",Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<RequestBody> call, Throwable t) {
-                Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
-            }
-        });
+//        Call<RequestBody> call = apiSevice.login("piaa12", "123123a");
+//        call.enqueue(new Callback<RequestBody>() {
+//            @Override
+//            public void onResponse(Call<RequestBody> call, Response<RequestBody> response) {
+//                Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<RequestBody> call, Throwable t) {
+//                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+//            }
+//        });
 
     }
 
@@ -84,8 +121,9 @@ public class CommendFragment extends BaseFragment {
     }
 
     public interface ApiSevice{
-        @POST("login")
-        Call<RequestBody> login(@Body User user);
+        @FormUrlEncoded
+        @POST("user/merchantlogin")
+        Call<UserInfo> login(@Field("username") String username,@Field("password") String pwd);
     }
 
     @OnClick(R.id.btn)
