@@ -3,6 +3,14 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
+    <EditText
+        android:gravity="center_vertical"
+        android:textSize="14sp"
+        android:hint="请输入"
+        android:id="@+id/et_search"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
     <Button
         android:id="@+id/btn"
         android:layout_width="match_parent"
