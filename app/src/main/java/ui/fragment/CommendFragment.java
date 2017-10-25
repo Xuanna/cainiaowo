@@ -68,8 +68,8 @@ public class CommendFragment extends BaseFragment {
 //        rxjavaMap();
 //        rxjavaFlamap();
 //        operatorFilter();
-        textChange();
-//        RxView.clicks(btn)
+//        textChange();
+//        RxView.clicks(btn)//多次点击
 //                .throttleFirst(1,TimeUnit.SECONDS)
 //        .subscribe(new Observer<Object>() {
 //            @Override
@@ -93,7 +93,48 @@ public class CommendFragment extends BaseFragment {
 //            }
 //        });
     }
-    public void textChange(){
+    int count=10;
+    public void countTime(){//倒计时
+        Observable.interval(0,1,TimeUnit.SECONDS)
+                .take(count+1)
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(@NonNull Long aLong) throws Exception {
+                        return count-aLong;
+                    }
+                })
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        btn.setEnabled(false);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Long aLong) {
+                        btn.setText(aLong+"秒");
+                        Log.e("aLong:", aLong+ "");
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        btn.setEnabled(true);
+                    }
+                });
+    }
+    public void textChange(){//事件监听，防止请求无用数据
         RxTextView.textChanges(etSearch).debounce(200, TimeUnit.MILLISECONDS)
                 .filter(new Predicate<CharSequence>() {
                     @Override
@@ -128,7 +169,7 @@ public class CommendFragment extends BaseFragment {
         });
 
     }
-    public void operatorFilter() {
+    public void operatorFilter() {//数据过滤
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
@@ -150,7 +191,7 @@ public class CommendFragment extends BaseFragment {
         });
     }
 
-    public void rxjavaFlamap() {
+    public void rxjavaFlamap() {//类型转换
         Observable.just("joey").flatMap(new Function<String, ObservableSource<User>>() {
             @Override
             public ObservableSource<User> apply(@NonNull String s) throws Exception {
@@ -201,7 +242,6 @@ public class CommendFragment extends BaseFragment {
     }
 
     public void getData() {
-
         Observable.create(new ObservableOnSubscribe<UserInfo>() {//在主线程
             @Override
             public void subscribe(@NonNull final ObservableEmitter<UserInfo> e) throws Exception {
@@ -277,11 +317,7 @@ public class CommendFragment extends BaseFragment {
     }
     @OnClick(R.id.btn)
     public void onClick() {
-        if (isFastDoubleClick()) {
-            return;
-        }else{
-            Log.e("onClick", "点击太频繁:");
-        }
+        countTime();
 //        getData();
     }
 }
