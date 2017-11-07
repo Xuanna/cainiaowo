@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/Linear" android:title="垂直布局"/>
+    <item android:id="@+id/Grid" android:title="表格"/>
+    <item android:id="@+id/Staggered" android:title="流式布局"/>
+</menu>
