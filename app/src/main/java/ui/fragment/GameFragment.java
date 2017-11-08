@@ -1,6 +1,7 @@
 package ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.custom.cainiaowo.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ui.BaseFragment;
-import utils.AdapterOnItemclick;
 
 /**
  * Created by xuchichi on 2017/9/29.
@@ -27,6 +28,8 @@ public class GameFragment extends BaseFragment {
     RecyclerView recycleView;
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+    @InjectView(R.id.Srl_refresh)
+    SwipeRefreshLayout SrlRefresh;
 
     @Override
     public int setLayout() {
@@ -54,7 +57,7 @@ public class GameFragment extends BaseFragment {
                         adapter.notifyDataSetChanged();
                         break;
                     case R.id.Staggered:
-                        recycleView.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
+                        recycleView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
                         adapter.notifyDataSetChanged();
                         break;
 
@@ -62,12 +65,22 @@ public class GameFragment extends BaseFragment {
                 return false;
             }
         });
+        initRefresh();
         initRecycle();
     }
+
     RecycleAdapter adapter;
+    public void initRefresh(){
+        SrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getActivity(),"555",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     public void initRecycle() {
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter=new RecycleAdapter();
+        adapter = new RecycleAdapter();
         recycleView.setAdapter(adapter);
     }
 
@@ -85,7 +98,7 @@ public class GameFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.tv.setText("第"+(position+1)+"个值");
+            holder.tv.setText("第" + (position + 1) + "个值");
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -93,7 +106,7 @@ public class GameFragment extends BaseFragment {
 
             public MyViewHolder(View itemView) {
                 super(itemView);
-                tv= (TextView) itemView.findViewById(R.id.tv);
+                tv = (TextView) itemView.findViewById(R.id.tv);
             }
         }
     }
