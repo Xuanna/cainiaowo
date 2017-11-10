@@ -2,34 +2,47 @@ package ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
-import java.util.Objects;
-
-import utils.OnItemClickListener;
 
 /**
  * Created by xuchichi on 2017/11/7.
  */
 
-public class BaseRecycleViewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
-    List<Objects> mlist;
-    int LayoutId;
-    Context context;
+public abstract class BaseRecycleViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
+    private List<T> dataList;
+    private int LayoutId;
+    private Context context;
+    private LayoutInflater inflater;
+
+    public BaseRecycleViewAdapter(List<T> mlist, int layoutId, Context context) {
+        this.dataList = mlist;
+        LayoutId = layoutId;
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+    }
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return BaseViewHolder.getHolder(context,LayoutId);
+        View view=inflater.inflate(LayoutId,null);
+        return new BaseViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-
+        bindData(holder,dataList.get(position),position);
+    }
+    protected abstract void bindData(BaseViewHolder holder, T data, int position);
+    @Override
+    public int getItemCount() {
+        return dataList.size();
     }
 
     @Override
-    public int getItemCount() {
-        return mlist.size();
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 }

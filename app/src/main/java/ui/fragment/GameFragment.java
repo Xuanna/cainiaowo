@@ -1,5 +1,6 @@
 package ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,9 +17,15 @@ import android.widget.Toast;
 
 import com.custom.cainiaowo.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ui.BaseFragment;
+import ui.adapter.BaseRecycleViewAdapter;
+import ui.adapter.BaseViewHolder;
+import ui.entiity.User;
 
 /**
  * Created by xuchichi on 2017/9/29.
@@ -30,7 +37,7 @@ public class GameFragment extends BaseFragment {
     Toolbar toolbar;
     @InjectView(R.id.Srl_refresh)
     SwipeRefreshLayout SrlRefresh;
-
+    List<User> mlist=new ArrayList<>();
     @Override
     public int setLayout() {
         return R.layout.fragment_game;
@@ -38,6 +45,11 @@ public class GameFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        User user;
+        for (int i=0;i<10;i++){
+            user=new User("张三"+(i+1),"Email"+(i+1));
+            mlist.add(user);
+        }
         toolbar.setTitle("使用recycleview，Logo");
         toolbar.setLogo(R.drawable.account);
         toolbar.setLogoDescription("Logo的描述");
@@ -80,36 +92,22 @@ public class GameFragment extends BaseFragment {
     }
     public void initRecycle() {
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new RecycleAdapter();
+        adapter = new RecycleAdapter(mlist,R.layout.item_textview,getActivity());
         recycleView.setAdapter(adapter);
     }
+    public class RecycleAdapter extends BaseRecycleViewAdapter<User>{
 
-    public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.MyViewHolder> {
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_textview, null);
-            return new MyViewHolder(view);
+        public RecycleAdapter(List<User> mlist, int layoutId, Context context) {
+            super(mlist, layoutId, context);
         }
 
         @Override
-        public int getItemCount() {
-            return 20;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.tv.setText("第" + (position + 1) + "个值");
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView tv;
-
-            public MyViewHolder(View itemView) {
-                super(itemView);
-                tv = (TextView) itemView.findViewById(R.id.tv);
-            }
+        protected void bindData(BaseViewHolder holder, User data, int position) {
+            TextView tv=holder.getView(R.id.tv);
+            tv.setText(data.email);
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
