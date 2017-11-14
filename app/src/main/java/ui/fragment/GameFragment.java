@@ -3,6 +3,7 @@ package ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -94,6 +95,7 @@ public class GameFragment extends BaseFragment {
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new RecycleAdapter(mlist,R.layout.item_textview,getActivity());
         recycleView.setAdapter(adapter);
+        recycleView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
     }
     public class RecycleAdapter extends BaseRecycleViewAdapter<User>{
 

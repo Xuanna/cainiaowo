@@ -2,9 +2,11 @@ package ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public abstract class BaseRecycleViewAdapter<T> extends RecyclerView.Adapter<Bas
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=inflater.inflate(LayoutId,null);
+        View view=inflater.inflate(LayoutId,parent,false);
         return new BaseViewHolder(view);
     }
 
@@ -39,6 +41,7 @@ public abstract class BaseRecycleViewAdapter<T> extends RecyclerView.Adapter<Bas
     @Override
     public int getItemCount() {
         return dataList.size();
+
     }
 
     @Override
