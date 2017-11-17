@@ -95,7 +95,8 @@ public class GameFragment extends BaseFragment {
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new RecycleAdapter(mlist,R.layout.item_textview,getActivity());
         recycleView.setAdapter(adapter);
-        recycleView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        recycleView.addItemDecoration(new utils.DividerItemDecoration(getActivity()));
+//        recycleView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
     }
     public class RecycleAdapter extends BaseRecycleViewAdapter<User>{
 
