@@ -82,6 +82,7 @@ public class GameFragment extends BaseFragment {
         initRecycle();
     }
 
+
     RecycleAdapter adapter;
     public void initRefresh(){
 //        SrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
