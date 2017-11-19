@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingRight="@dimen/common_padding"
+    android:paddingLeft="@dimen/common_padding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tv_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1"
+        android:textSize="@dimen/fourteen_dp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_no"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#3ef3ed"/>
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/iv_logo"
+        android:textColor="@color/black"
+        android:id="@+id/tv_appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="淘宝"
+        android:textSize="@dimen/fourteen_dp"
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_appName"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/iv_logo"
+        android:textColor="@color/black"
+        android:id="@+id/tv_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="购物"
+        android:textSize="@dimen/twelve_dp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_operate"
+        android:layout_alignParentRight="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="#3ef3ed"/>
+</RelativeLayout>
