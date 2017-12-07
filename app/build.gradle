@@ -1,19 +1,69 @@
 apply plugin: 'com.android.application'
+//用来指定用的是那个插件，取值有 com.android.applicatio：apk，
+//com.android.library：aar
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
-    defaultConfig {
+android { //指定android打包插件的相关属性，
+    compileSdkVersion 25   //设置编译时用的android版本
+    buildToolsVersion "25.0.3"  //设置编译时使用的构建工具的版本
+    defaultConfig {//设置一些默认属性，其可用属性时buildtyoe和ProductFlavors之和
         applicationId "com.custom.cainiaowo"
-        minSdkVersion 23
-        targetSdkVersion 25
+        minSdkVersion 23  //设置兼容的最小sdk版本 如果设备小于这个版本将无法安装
+        targetSdkVersion 25 //设置目标sdk版本 如果设备等于这个版本那么android平台将布进行兼容性检车，运行效率会高一点
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true;//当方法数超过65535的时候允许打包成多个dex文件，动态加载dex
     }
-    buildTypes {
+    sourceSets{//配置相关源文件的位置，当你的项目的目录节后跟默认的有区别但又不想改的时候sourceSets就派上用场了
+
+
+    }
+    //multidex的一些相关配置没这样配置可以让你的编译速度更快
+    dexOptions{
+        preDexLibraries=false
+        //让它不要对Lib做preDexing
+        incremental true
+        //开启incremetal dexing,优化编译效率，这个功能androidstudio默认是关闭的
+        javaMaxHeapSize "4g"//增加java堆内存的大小
+    }
+    signingConfigs{} //配置签名信息
+
+   //配置不同风格的app，
+    //在这里你可以设置你的产品发布的一些东西，比如你现在一共软件发布到不同渠道
+    //且不同渠道中的包名不同，那么可以在此进行配置
+    //甚至可以设置不同的AndroidMainFest。xml
+    productFlavors{
+        xiaopao{
+
+        }
+        googlePlay{
+
+        }
+        solo{
+
+        }
+    }
+
+
+    testOptions{} //设置测试相关属性
+    aaptOptions{}//设置AAPT的属性
+    lintOptions{//设置Lint的属性 有任何错误提示会停止build，我们可以关闭这个开关
+        abortOnError false;
+        //即使报错也不会停止打包
+        checkReleaseBuilds false;
+        //打包Release版本的时候进行检测
+    }
+
+    compileOptions{}//设置编译的相关属性
+    packagingOptions{}// 设置apk包的相关属性
+    splits{}//设置如何拆分apk，比如你想拆分成arm版和x86版
+    buildTypes {//配置构建类型，打出不同类型的包，默认有debug和release，还可以增加n种
         release {
-            minifyEnabled false
+            zipAlignEnabled true //是否支持zip
+            shrinkResources true //移除无用的resource文件
+            minifyEnabled false //是否进行混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            release 的proguard默认为Module下proguard-rules.pro
+            debuggable false //是否支持调试
         }
     }
 }

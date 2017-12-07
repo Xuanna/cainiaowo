@@ -82,21 +82,32 @@ public class GameFragment extends BaseFragment {
         initRecycle();
     }
 
+
     RecycleAdapter adapter;
     public void initRefresh(){
-        SrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Toast.makeText(getActivity(),"555",Toast.LENGTH_LONG).show();
-            }
-        });
+//        SrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                SrlRefresh.onFinishTemporaryDetach();
+//                Toast.makeText(getActivity(),"555",Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
     public void initRecycle() {
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new RecycleAdapter(mlist,R.layout.item_textview,getActivity());
         recycleView.setAdapter(adapter);
-        recycleView.addItemDecoration(new utils.DividerItemDecoration(getActivity()));
-//        recycleView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        //添加分割线
+        recycleView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        //添加点击事件
+        adapter.setOnitemClickListener(new BaseRecycleViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView,int position) {
+                Toast.makeText(getContext(),""+position,Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
     public class RecycleAdapter extends BaseRecycleViewAdapter<User>{
 
