@@ -24,6 +24,7 @@ import ui.entiity.Tab;
 
 /**
  * Created by xuchichi on 2017/9/29.
+ * 这里我用的Fragment，Activity里面也是一样的用法
  */
 public class RankFragment extends BaseFragment {
     @InjectView(R.id.realTanContent)
@@ -44,21 +45,21 @@ public class RankFragment extends BaseFragment {
     }
     public void initTabs(){
         tabhost.setup(getContext(),getChildFragmentManager(),R.id.realTanContent);
-        mlist.add(new Tab("推荐1",CommendFragment.class));
+        mlist.add(new Tab("轮播图",BannerFragment.class));
         mlist.add(new Tab("推荐2",SortFragment.class));
         mlist.add(new Tab("推荐3",GameFragment.class));
         for (Tab tab:mlist) {
             tabhost.addTab(getTab(tab),tab.getFragment(),null);
         }
         tabhost.getTabWidget().setShowDividers(LinearLayout.SHOW_DIVIDER_NONE);//去掉分割线
-
         tabhost.setCurrentTab(0);
-//
+//          这里是一个一个加tab和内容
 //        TabHost.TabSpec tabSpec=tabhost.newTabSpec("fg1");
 //        View view=LayoutInflater.from(getContext()).inflate(R.layout.item_textview,null);
 //        TextView tv1= (TextView) view.findViewById(R.id.tv);
 //        tv1.setText("排行1");
 //        tabSpec.setIndicator(view);
+//        tabhost.addTab(tabSpec,CommendFragment.class,null);
 //
 //        TabHost.TabSpec tabSpec2=tabhost.newTabSpec("fg2");
 //        View view2=LayoutInflater.from(getContext()).inflate(R.layout.item_textview,null);

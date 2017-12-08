@@ -6,4 +6,5 @@
     <dimen name="zero_point_five_dp">0.5dp</dimen>
     <dimen name="fourteen_dp">14dp</dimen>
    <dimen name="twelve_dp">12dp</dimen>
+    <dimen name="divider_bottom">0.5dp</dimen>
 </resources>
