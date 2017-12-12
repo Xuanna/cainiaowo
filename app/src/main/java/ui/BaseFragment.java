@@ -18,7 +18,9 @@ public abstract class BaseFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    if(view==null){
         view=inflater.inflate(setLayout(),null);
+    }
         ButterKnife.inject(this,view);
         initView();
         return view;

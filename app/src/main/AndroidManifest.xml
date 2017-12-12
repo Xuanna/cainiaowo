@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name="ui.activity.WelcomeActivity" />
-        <activity android:name="ui.activity.GuildeActivity"></activity>
+        <activity android:name="ui.activity.GuildeActivity"/>
     </application>
 
 </manifest>
