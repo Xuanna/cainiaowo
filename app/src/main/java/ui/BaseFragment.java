@@ -28,6 +28,11 @@ public abstract class BaseFragment extends Fragment{
     public abstract int setLayout();
     public abstract void initView();
 
+    @Override
+    public boolean getUserVisibleHint() {
+        return super.getUserVisibleHint();
+        // TODO: 2017/12/12
+    }
 
     @Override
     public void onDestroy() {
