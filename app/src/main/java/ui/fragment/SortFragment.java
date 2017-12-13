@@ -2,7 +2,8 @@ package ui.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Spannable;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
@@ -12,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.custom.cainiaowo.BaseCallback;
 import com.custom.cainiaowo.R;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,11 +27,9 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.Utf8;
-import retrofit2.http.POST;
 import ui.BaseFragment;
+import utils.MyOkhttpHelper;
 
 /**
  * Created by xuchichi on 2017/9/29.
@@ -66,8 +68,37 @@ public class SortFragment extends BaseFragment {
             login();
         }
     }
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+           Bundle bundle=  msg.getData();
+           String str= (String) bundle.get("response");
+            et.setText(str);
+        }
+    };
 
     public void login(){
+//       MyOkhttpHelper okhttpHelper= MyOkhttpHelper.getInstance();
+//        Map<String,String> map=new HashMap<>();
+//        map.put("username","piaa12");
+//        map.put("password","123123a");
+//        okhttpHelper.post("http://wallet.pigamegroup.com/user/merchantlogin", map, new BaseCallback() {
+//            @Override
+//            public void onFailure(IOException e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponseSuccess(Response response, Object o) {
+//
+//            }
+//
+//            @Override
+//            public void onResponseError(Response response, int code, Exception e) {
+//
+//            }
+//        });
         OkHttpClient okHttpClient=new OkHttpClient();
         FormBody formBody=new FormBody.Builder().add("username","piaa12")
                 .add("password","123123a").build();
@@ -84,7 +115,14 @@ public class SortFragment extends BaseFragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()){
-                    Log.e("response",response.body().string());
+
+                    Message msg=Message.obtain();
+                    Bundle bundleData = new Bundle();
+                    bundleData.putString("response", response.body().string());
+                    msg.setData(bundleData);
+                    handler.sendMessage(msg);
+
+//                    Log.e("response",response.body().string());
                 }else{
                     Log.e("error","error");
                 }
