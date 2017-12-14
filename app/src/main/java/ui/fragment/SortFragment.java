@@ -29,6 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import ui.BaseFragment;
+import ui.entiity.UserInfo;
 import utils.MyOkhttpHelper;
 
 /**
@@ -79,56 +80,61 @@ public class SortFragment extends BaseFragment {
     };
 
     public void login(){
-//       MyOkhttpHelper okhttpHelper= MyOkhttpHelper.getInstance();
-//        Map<String,String> map=new HashMap<>();
-//        map.put("username","piaa12");
-//        map.put("password","123123a");
-//        okhttpHelper.post("http://wallet.pigamegroup.com/user/merchantlogin", map, new BaseCallback() {
-//            @Override
-//            public void onFailure(IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponseSuccess(Response response, Object o) {
-//
-//            }
-//
-//            @Override
-//            public void onResponseError(Response response, int code, Exception e) {
-//
-//            }
-//        });
-        OkHttpClient okHttpClient=new OkHttpClient();
-        FormBody formBody=new FormBody.Builder().add("username","piaa12")
-                .add("password","123123a").build();
-        final Request request=new Request.Builder()
-              .url("http://wallet.pigamegroup.com/user/merchantlogin")
-                .post(formBody)
-                .build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
+       MyOkhttpHelper okhttpHelper= MyOkhttpHelper.getInstance();
+        Map<String,String> map=new HashMap<>();
+        map.put("username","piaa12");
+        map.put("password","123123a");
+        okhttpHelper.post("http://wallet.pigamegroup.com/user/merchantlogin", map, new BaseCallback<UserInfo>() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(IOException e) {
                 Log.e("onFailure",e.toString());
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
-
-                    Message msg=Message.obtain();
-                    Bundle bundleData = new Bundle();
-                    bundleData.putString("response", response.body().string());
-                    msg.setData(bundleData);
-                    handler.sendMessage(msg);
-
-//                    Log.e("response",response.body().string());
-                }else{
-                    Log.e("error","error");
-                }
+            public void onResponseSuccess(Response response, UserInfo userInfo) {
+                   try {
+                       Log.e("onResponseSuccess","onResponseSuccess");
+                      }catch (Exception ex){
+                        ex.printStackTrace();
+                     }
 
             }
+
+            @Override
+            public void onResponseError(Response response, int code, Exception e) {
+                Log.e("onResponseError",e.toString());
+            }
         });
+//        OkHttpClient okHttpClient=new OkHttpClient();
+//        FormBody formBody=new FormBody.Builder().add("username","piaa12")
+//                .add("password","123123a").build();
+//        final Request request=new Request.Builder()
+//              .url("http://wallet.pigamegroup.com/user/merchantlogin")
+//                .post(formBody)
+//                .build();
+//        okHttpClient.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                Log.e("onFailure",e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                if(response.isSuccessful()){
+//
+//                    Message msg=Message.obtain();
+//                    Bundle bundleData = new Bundle();
+//                    bundleData.putString("response", response.body().string());
+//                    msg.setData(bundleData);
+//                    handler.sendMessage(msg);
+//
+////                    Log.e("response",response.body().string());
+//                }else{
+//                    Log.e("error","error");
+//                }
+//
+//            }
+//        });
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

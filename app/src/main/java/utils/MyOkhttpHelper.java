@@ -54,11 +54,11 @@ public class MyOkhttpHelper {
             public void onResponse(Call call, Response response) throws IOException {
             if (response.isSuccessful()){
                 String string=response.body().string();
-                if(callback.mclass==String.class){
+                if(callback.classOfT==String.class){
                     callback.onResponseSuccess(response,string);
                 }else{
                        try {
-                           Object object= gson.fromJson(response.body().string(),callback.mclass);
+                           Object object= gson.fromJson(response.body().string(),callback.classOfT);
                            callback.onResponseSuccess(response,object);
                           }catch (JsonParseException ex){
                             ex.printStackTrace();
