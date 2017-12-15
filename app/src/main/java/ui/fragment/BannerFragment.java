@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import dmax.dialog.SpotsDialog;
 import ui.BaseFragment;
 import ui.tools.GlideImageLoader;
 
@@ -53,6 +54,8 @@ public class BannerFragment extends BaseFragment {
         banner.setIndicatorGravity(BannerConfig.RIGHT);
         //banner设置方法全部调用完毕时最后调用
         banner.start();
+//        SpotsDialog spotsDialog=new SpotsDialog(getContext());
+//        spotsDialog.show();
     }
 
     @Override

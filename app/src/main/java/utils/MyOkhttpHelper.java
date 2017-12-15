@@ -1,5 +1,8 @@
 package utils;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.custom.cainiaowo.BaseCallback;
 import com.custom.cainiaowo.Myapplication;
 import com.google.gson.Gson;
@@ -7,7 +10,6 @@ import com.google.gson.JsonParseException;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -20,27 +22,25 @@ import okhttp3.Response;
 /**
  * Created by xuchichi on 2017/12/13.
  */
-public class MyOkhttpHelper {
+public class MyOkHttpHelper {
     private OkHttpClient okHttpClient  = Myapplication.okHttpClient;
     private Gson gson;
+    Handler handler;
 
-    public MyOkhttpHelper() {
+    public MyOkHttpHelper() {
         gson=new Gson();
+        handler=new Handler(Looper.getMainLooper());
     }
-    public static MyOkhttpHelper getInstance(){
-        MyOkhttpHelper myOkhttpHelper=null;
-        if(myOkhttpHelper==null){
-            myOkhttpHelper=new MyOkhttpHelper();
-        }
-        return myOkhttpHelper;
+    public static MyOkHttpHelper getInstance(){
+        return new MyOkHttpHelper();
     }
     public void get(String url,BaseCallback baseCallback){
-        Request request=buildRequest(url,null,OkhttpMethodType.GET);
+        Request request=buildRequest(url,null,OkHttpMethodType.GET);
         doRequest(request,baseCallback);
     }
 
     public void post(String url, Map<String,String> params,BaseCallback baseCallback){
-        Request request=buildRequest(url,params,OkhttpMethodType.POST);
+        Request request=buildRequest(url,params,OkHttpMethodType.POST);
         doRequest(request,baseCallback);
     }
     public void doRequest( final Request request,final BaseCallback callback){
@@ -52,17 +52,20 @@ public class MyOkhttpHelper {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(response);
             if (response.isSuccessful()){
                 String string=response.body().string();
-                if(callback.classOfT==String.class){
+                if(callback.mType==String.class){
                     callback.onResponseSuccess(response,string);
                 }else{
                        try {
-                           Object object= gson.fromJson(response.body().string(),callback.classOfT);
-                           callback.onResponseSuccess(response,object);
+                           Object object= gson.fromJson(string,callback.mType);
+                           callBackSuccess(callback,response,object);
+//                           callback.onResponseSuccess(response,object);
                           }catch (JsonParseException ex){
                             ex.printStackTrace();
-                           callback.onResponseError(response,response.code(),ex);
+                           callBackError(callback,response,ex);
+//                           callback.onResponseError(response,response.code(),ex);
                          }
 
                 }
@@ -73,12 +76,30 @@ public class MyOkhttpHelper {
             }
         });
     }
-    private  Request buildRequest(String url,Map<String,String> params,OkhttpMethodType type){
+    private void callBackSuccess(final BaseCallback callback, final Response response, final Object object){
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onResponseSuccess(response,object);
+            }
+        });
+
+    }
+    private void callBackError(final BaseCallback callback, final Response response,final Exception e){
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onResponseError(response,response.code(),e);
+            }
+        });
+
+    }
+    private  Request buildRequest(String url,Map<String,String> params,OkHttpMethodType type){
         Request.Builder builder=new Request.Builder();
         builder.url(url);
-        if (type==OkhttpMethodType.GET){
+        if (type==OkHttpMethodType.GET){
             builder.get();
-        }else if(type==OkhttpMethodType.POST){
+        }else if(type==OkHttpMethodType.POST){
             RequestBody requestBody=  buildFormData(params);
             builder.post(requestBody);
         }
@@ -96,7 +117,7 @@ public class MyOkhttpHelper {
         return builder.build();
     }
 
-     enum OkhttpMethodType {
+     enum OkHttpMethodType {
 
         GET, POST
 

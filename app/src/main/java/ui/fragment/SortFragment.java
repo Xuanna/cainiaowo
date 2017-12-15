@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.custom.cainiaowo.BaseCallback;
 import com.custom.cainiaowo.R;
+import com.custom.cainiaowo.SpotsCallback;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,15 +23,10 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 import ui.BaseFragment;
 import ui.entiity.UserInfo;
-import utils.MyOkhttpHelper;
+import utils.MyOkHttpHelper;
 
 /**
  * Created by xuchichi on 2017/9/29.
@@ -80,29 +76,19 @@ public class SortFragment extends BaseFragment {
     };
 
     public void login(){
-       MyOkhttpHelper okhttpHelper= MyOkhttpHelper.getInstance();
+       MyOkHttpHelper okhttpHelper= MyOkHttpHelper.getInstance();
         Map<String,String> map=new HashMap<>();
         map.put("username","piaa12");
         map.put("password","123123a");
-        okhttpHelper.post("http://wallet.pigamegroup.com/user/merchantlogin", map, new BaseCallback<UserInfo>() {
-            @Override
-            public void onFailure(IOException e) {
-                Log.e("onFailure",e.toString());
-            }
-
+        okhttpHelper.post("http://wallet.pigamegroup.com/user/merchantlogin", map, new SpotsCallback<UserInfo>(getContext()) {
             @Override
             public void onResponseSuccess(Response response, UserInfo userInfo) {
-                   try {
-                       Log.e("onResponseSuccess","onResponseSuccess");
-                      }catch (Exception ex){
-                        ex.printStackTrace();
-                     }
-
+                    et.setText(userInfo.data.user.username);
             }
 
             @Override
             public void onResponseError(Response response, int code, Exception e) {
-                Log.e("onResponseError",e.toString());
+                Log.e("onFailure",e.toString());
             }
         });
 //        OkHttpClient okHttpClient=new OkHttpClient();
