@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawlayout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--主内容-->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -14,7 +15,7 @@
             android:layout_width="match_parent"
             android:background="@color/colorPrimary"
             app:title="你好"
-            android:theme="@style/AppTheme.Toolbar"
+            android:theme="@style/AppTheme"
             android:minHeight="?attr/actionBarSize"
             app:titleTextColor="#FFF"
             android:layout_height="wrap_content"
@@ -23,6 +24,8 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -31,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
+    <!--侧边内容-->
     <android.support.design.widget.NavigationView
         app:menu="@menu/menu_left"
         android:layout_gravity="start"
