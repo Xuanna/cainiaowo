@@ -1,6 +1,7 @@
 package ui.fragment;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -85,13 +86,15 @@ public class GameFragment extends BaseFragment {
 
     RecycleAdapter adapter;
     public void initRefresh(){
-//        SrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                SrlRefresh.onFinishTemporaryDetach();
-//                Toast.makeText(getActivity(),"555",Toast.LENGTH_LONG).show();
-//            }
-//        });
+        SrlRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        SrlRefresh.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.colorPrimaryDark));
+        SrlRefresh.setSize(SwipeRefreshLayout.LARGE);
+        SrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                SrlRefresh.setRefreshing(false);
+            }
+        });
     }
     public void initRecycle() {
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));

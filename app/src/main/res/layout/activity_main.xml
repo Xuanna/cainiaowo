@@ -25,7 +25,7 @@
             android:id="@+id/tab_layout"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextColor="@color/black"
+            app:tabTextColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
