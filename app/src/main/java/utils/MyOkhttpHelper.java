@@ -3,8 +3,8 @@ package utils;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.custom.cainiaowo.BaseCallback;
-import com.custom.cainiaowo.Myapplication;
+import net.BaseCallback;
+import net.Myapplication;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
@@ -44,6 +44,7 @@ public class MyOkHttpHelper {
         doRequest(request,baseCallback);
     }
     public void doRequest( final Request request,final BaseCallback callback){
+        callback.onRequestBefore(request);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -56,22 +57,20 @@ public class MyOkHttpHelper {
             if (response.isSuccessful()){
                 String string=response.body().string();
                 if(callback.mType==String.class){
-                    callback.onResponseSuccess(response,string);
+                    callBackSuccess(callback,response,string);
                 }else{
                        try {
                            Object object= gson.fromJson(string,callback.mType);
                            callBackSuccess(callback,response,object);
-//                           callback.onResponseSuccess(response,object);
                           }catch (JsonParseException ex){
                             ex.printStackTrace();
                            callBackError(callback,response,ex);
-//                           callback.onResponseError(response,response.code(),ex);
                          }
 
                 }
 
             }else{
-                callback.onResponseError(response,response.code(),null);
+                callBackError(callback,response,null);
             }
             }
         });
@@ -96,6 +95,7 @@ public class MyOkHttpHelper {
     }
     private  Request buildRequest(String url,Map<String,String> params,OkHttpMethodType type){
         Request.Builder builder=new Request.Builder();
+        builder.tag(this);
         builder.url(url);
         if (type==OkHttpMethodType.GET){
             builder.get();

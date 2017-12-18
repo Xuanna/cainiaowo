@@ -36,6 +36,8 @@ public class BannerFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        title.clear();
+        images.clear();
         images.add(R.drawable.iv_home_banner_eight);
         images.add(R.drawable.iv_home_banner_five);
         images.add(R.drawable.iv_home_banner_four);
@@ -54,8 +56,6 @@ public class BannerFragment extends BaseFragment {
         banner.setIndicatorGravity(BannerConfig.RIGHT);
         //banner设置方法全部调用完毕时最后调用
         banner.start();
-//        SpotsDialog spotsDialog=new SpotsDialog(getContext());
-//        spotsDialog.show();
     }
 
     @Override

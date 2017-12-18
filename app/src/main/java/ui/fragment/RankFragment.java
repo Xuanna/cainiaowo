@@ -45,13 +45,10 @@ public class RankFragment extends BaseFragment {
         initTabs();
     }
     public void initTabs(){
-        Log.e("init","initTabs");
-//        mlist.clear();
         tabhost.setup(getContext(),getChildFragmentManager(),R.id.realTanContent);
         mlist.add(new Tab("轮播图",BannerFragment.class));
         mlist.add(new Tab("推荐2",SortFragment.class));
         mlist.add(new Tab("推荐3",GameFragment.class));
-//        tabhost.clearAllTabs();
         for (Tab tab:mlist) {
             tabhost.addTab(getTab(tab),tab.getFragment(),null);
         }
