@@ -1,4 +1,4 @@
-package com.custom.cainiaowo;
+package net;
 
 import com.google.gson.internal.$Gson$Types;
 

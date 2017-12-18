@@ -2,8 +2,6 @@ package ui.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
@@ -13,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.custom.cainiaowo.BaseCallback;
 import com.custom.cainiaowo.R;
-import com.custom.cainiaowo.SpotsCallback;
 
-import java.io.IOException;
+import net.Business;
+import net.SpotsCallback;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,62 +63,18 @@ public class SortFragment extends BaseFragment {
             login();
         }
     }
-    Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-           Bundle bundle=  msg.getData();
-           String str= (String) bundle.get("response");
-            et.setText(str);
-        }
-    };
-
     public void login(){
-       MyOkHttpHelper okhttpHelper= MyOkHttpHelper.getInstance();
-        Map<String,String> map=new HashMap<>();
-        map.put("username","piaa12");
-        map.put("password","123123a");
-        okhttpHelper.post("http://wallet.pigamegroup.com/user/merchantlogin", map, new SpotsCallback<UserInfo>(getContext()) {
+        Business.login("piaa12", "123123a", new SpotsCallback<UserInfo>(getContext()) {
             @Override
             public void onResponseSuccess(Response response, UserInfo userInfo) {
-                    et.setText(userInfo.data.user.username);
+                et.setText(userInfo.data.user.username);
             }
-
             @Override
             public void onResponseError(Response response, int code, Exception e) {
                 Log.e("onFailure",e.toString());
             }
         });
-//        OkHttpClient okHttpClient=new OkHttpClient();
-//        FormBody formBody=new FormBody.Builder().add("username","piaa12")
-//                .add("password","123123a").build();
-//        final Request request=new Request.Builder()
-//              .url("http://wallet.pigamegroup.com/user/merchantlogin")
-//                .post(formBody)
-//                .build();
-//        okHttpClient.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.e("onFailure",e.toString());
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                if(response.isSuccessful()){
-//
-//                    Message msg=Message.obtain();
-//                    Bundle bundleData = new Bundle();
-//                    bundleData.putString("response", response.body().string());
-//                    msg.setData(bundleData);
-//                    handler.sendMessage(msg);
-//
-////                    Log.e("response",response.body().string());
-//                }else{
-//                    Log.e("error","error");
-//                }
-//
-//            }
-//        });
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

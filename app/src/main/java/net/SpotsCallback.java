@@ -1,7 +1,7 @@
-package com.custom.cainiaowo;
+package net;
 
 import android.content.Context;
-import android.widget.Toast;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -32,7 +32,7 @@ public abstract class SpotsCallback<T> extends BaseCallback<T> {
     @Override
     public void onRequestBefore(Request request) {
        showDialog();
-        Toast.makeText(context,"show",Toast.LENGTH_LONG).show();
+        Log.e("onRequestBefore","onRequestBefore");
     }
 
     @Override
