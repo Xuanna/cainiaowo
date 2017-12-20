@@ -16,15 +16,11 @@ import com.custom.cainiaowo.R;
 import net.Business;
 import net.SpotsCallback;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import okhttp3.Response;
 import ui.BaseFragment;
 import ui.entiity.UserInfo;
-import utils.MyOkHttpHelper;
 
 /**
  * Created by xuchichi on 2017/9/29.
@@ -68,6 +64,12 @@ public class SortFragment extends BaseFragment {
             @Override
             public void onResponseSuccess(Response response, UserInfo userInfo) {
                 et.setText(userInfo.data.user.username);
+                   try {
+                       Log.e("onResponseSuccess",response.body().string());
+                      }catch (Exception ex){
+                        ex.printStackTrace();
+                     }
+
             }
             @Override
             public void onResponseError(Response response, int code, Exception e) {

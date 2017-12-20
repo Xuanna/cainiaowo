@@ -3,8 +3,6 @@ package net;
 import java.util.HashMap;
 import java.util.Map;
 
-import utils.MyOkHttpHelper;
-
 /**
  * Created by xuchichi on 2017/12/18.
  */
